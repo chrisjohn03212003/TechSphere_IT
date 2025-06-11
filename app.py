@@ -1803,5 +1803,9 @@ def internal_error(error):
 def forbidden_error(error):
     return jsonify({'error': 'Forbidden access'}), 403
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    # Set port for Render compatibility
+    port = int(os.environ.get("PORT", 5000))
+    
+    # Run the Flask app
+    app.run(host="0.0.0.0", port=port)
