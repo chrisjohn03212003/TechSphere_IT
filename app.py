@@ -475,28 +475,22 @@ def delete_account():
 def search_dictionary():
     try:
         term = request.args.get('term', '').strip()
-        category = request.args.get('category', 'all')
-        
+        category = request.args.get('category', 'general')
+
         if not term:
             return jsonify({'error': 'Search term is required'}), 400
-        
-        # Check if term already exists in database first
-        existing_definition = get_existing_term(term, category)
-        
-        if existing_definition:
-            # Return cached definition from database
-            return jsonify({'results': [existing_definition]}), 200
+
+        # Directly call Gemini AI (no DB check, no save)
+        ai_definition = get_gemini_definition(term, category)
+
+        if ai_definition:
+            return jsonify({'results': [ai_definition]}), 200
         else:
-            # Ask AI for definition since term not found in database
-            ai_definition = get_gemini_definition(term, category)
-            
-            if ai_definition:
-                return jsonify({'results': [ai_definition]}), 200
-            else:
-                return jsonify({'error': 'Could not generate definition for this term'}), 404
-        
+            return jsonify({'error': 'Could not generate definition for this term'}), 404
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 def get_existing_term(term, category):
     """Check if term already exists in database"""
