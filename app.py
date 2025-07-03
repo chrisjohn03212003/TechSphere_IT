@@ -491,8 +491,6 @@ def search_dictionary():
             ai_definition = get_gemini_definition(term, category)
             
             if ai_definition:
-                # Save the AI-generated definition to database for future use
-                save_term_to_db(ai_definition)
                 return jsonify({'results': [ai_definition]}), 200
             else:
                 return jsonify({'error': 'Could not generate definition for this term'}), 404
