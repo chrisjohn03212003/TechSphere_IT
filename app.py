@@ -40,9 +40,9 @@ generation_config = {
     "temperature": 0.3,
     "top_p": 0.95,
     "top_k": 64,
-    "max_output_tokens": 1000,
-    "response_mime_type": "application/json",
+    "max_output_tokens": 1000
 }
+
 
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
