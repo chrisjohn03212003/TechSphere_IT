@@ -33,7 +33,11 @@ def initialize_firebase():
 # Initialize Firebase
 db = initialize_firebase()
 
-genai.configure(api_key=os.environ.get('GEMINI_API_KEY', 'AIzaSyAWCRKSWg0i3TwvINiJBlOmQ910QVZlDYc'))
+api_key = os.environ.get('GEMINI_API_KEY')
+if not api_key:
+    raise RuntimeError("Missing GEMINI_API_KEY in environment")
+genai.configure(api_key=api_key)
+
 
 # Create the model
 generation_config = {
